@@ -1,0 +1,78 @@
+{% extends 'main/dashboard_layout.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block main_content %}
+
+<a class="pl-3" href="{% url 'home' %}">Главная</a> > <a href="{% url 'direction_set' klass_id %}">{{ klass_id }}-й Класс</a> >
+        <a href="{% url 'direction_pick' klass_id dir_id %}">
+            {% if dir_id == 'nis' %}
+                НИШ
+            {% elif dir_id == 'ktl' %}
+                КТЛ
+            {% elif dir_id == 'rfm' %}
+                РФМШ
+            {% elif dir_id == '165' %}
+                165 лицей
+            {% endif %}</a> > <a>
+        {% if sub_id == 'mat' %}
+            Математика
+        {% elif sub_id == 'eng' %}
+            Английский
+        {% elif sub_id == 'kaz' %}
+            Казахский
+        {% elif sub_id == 'rus' %}
+            Русский
+        {% endif %}</a>
+    <hr class="my-4">
+                    
+                    {% for lesson in klass %}
+                    <div class="row">
+                    <div class="col-sm-{%if forloop.counter == 1%}7{%else%}12{%endif%}">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ lesson.name }}</h5>
+                              <p>{{ lesson.anons }}</p>
+
+                              {% for f in final_array %}
+                                    {% if f.id == lesson.id %}
+                                        <a href="{% url 'classes_detail' klass_id dir_id sub_id lesson.id %}" class="btn btn-primary">{% trans 'Изучить' %}</a>
+                                    {% endif %}
+                              {% endfor %}
+
+                                <a id="button_{{ lesson.id }}" href="{% url 'pre_buy' lesson.id %}" class="btn btn-warning invis" style="width: 5.5rem;">{% trans 'Купить' %}</a>
+
+                          <!-- <a href="#" class="btn btn-warning" style="width: 5.5rem;">Купить</a> -->
+
+                          </div>
+                        </div>
+                    </div>
+                    
+                    {% if forloop.counter == 1 %}
+                        <div class="col-sm-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    Купите сразу 10 уроков и получите доступ к дополнительным функциям
+                                </div>
+                                <div class="card-footer">
+                                    <a class="btn btn-primary" href="#">Купить</a>
+                                    <a class="btn btn-warning" href="#">Подробнее</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+{% endblock %}
+
+
+{% block script_content %}
+{% for data in klass_data_clear %}
+    <script>
+        $(document).ready(function (){
+            $("#button_{{ data.id }}").removeClass("invis");
+        });
+    </script>
+{% endfor %}
+{% endblock %}

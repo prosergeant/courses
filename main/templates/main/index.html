@@ -1,0 +1,171 @@
+{% extends 'main/layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block main_content %}
+
+    <style>
+        body {
+            background-color: #eef7fd;
+        }
+    </style>
+
+    <div class="jumbotron align-items-center" style="background-repeat: no-repeat; 
+    background-size: cover; 
+    height: 400px; 
+    margin: auto; 
+    display: block; 
+    background-image: url('{% static 'main/img/hero.jpg' %}')">
+        <div id="mainblock1" class="w-50">
+            <h1 class="">Все в одном месте</h1>
+            <a href="{% url 'classes' %}" class="btn btn-primary text-center">{% trans 'Выбор класса' %}</a>
+            <a href="{% url 'school-rating' %}" class="btn btn-primary">Рейтинг школ</a>
+        </div>
+    </div>
+
+    <style>
+        #main_menu {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        #main_menu_card {
+            transition: transform .3s ease;
+        }
+
+        #main_menu_card:hover {
+            transform: scale(1.05);
+
+        }
+
+        .step-item {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            width: 50%;
+            margin: 30px 0;
+            z-index: 5;
+        }
+
+        .train {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            width: 95%;
+            margin: auto;
+        }
+
+        .display-5 {
+            font-size: 3.0rem;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+
+        .display-6 {
+            font-size: 2.0rem;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+
+    </style>
+
+    <div id="main_menu">
+        <div class="row">
+            <div class="col-sm">
+                <a id="card_nav" href="{% url 'direction_pick' 6 'nis' %}">
+                <div id="main_menu_card" class="card" style="width: 16rem;" >
+                    <img class="card-img-top" src="{% static 'main/img/bg1.jpg' %}" alt="Card image cap">
+                    <div class="card-body text-center">
+                        <p class="card-text">Назарбаевская Интелектуальная Школа</p>
+                        <hr class="my-4">
+                        <p>6-й класс</p>
+                    </div>
+                </div></a>
+            </div>
+
+            <div class="col-sm">
+                <div id="main_menu_card" class="card" style="width: 16rem;">
+                    <img class="card-img-top" src="{% static 'main/img/bg1.jpg' %}" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div id="main_menu_card" class="card" style="width: 16rem;">
+                    <img class="card-img-top" src="{% static 'main/img/bg1.jpg' %}" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div id="main_menu_card" class="card" style="width: 16rem;">
+                    <img class="card-img-top" src="{% static 'main/img/bg1.jpg' %}" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div id="about" class="text-center">
+        <h2>Как проходит обучение</h2>
+
+
+        <div class="train">
+            <div id="about_card" class="card step-item shadow-sm">
+                <div class="card-body">
+                Выбираете класс вашего ребенка
+                </div>
+            </div>
+
+            <div id="about_card" class="card step-item shadow-sm">
+                <div class="card-body">
+                Выбираете какое направление вы хотите "подтянуть"
+                </div>
+            </div>
+
+            <div id="about_card" class="card step-item shadow-sm">
+                <div class="card-body">
+                Выбираете предмет
+                </div>
+            </div>
+
+            <div id="about_card" class="card step-item shadow-sm">
+                <div class="card-body">
+                Переходите к списку уроков, и начиниаете их проходить
+                </div>
+            </div>
+        </div>
+
+        <div id="" class="card text-center w-50 shadow-sm" style="display:block; margin: auto;">
+            <div class="card-body">
+                Пройдите промежуточный тест, чтобы закрепить свои знания и узнать проходной бал
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="my-4">
+
+    <div id="about_teachers" class="text-center">
+        <h2 class="display-5">О наших учителях снимающих видео-уроки</h2>
+
+        <h2 class="display-6">Наши уроки составленны самими учителями из НИШ, РФМШ, КТЛ и других лицеев, чтобы ваш ребенок учил именно то что ему пригодится для поступления</h2>
+    </div>
+
+
+{% endblock %}
+

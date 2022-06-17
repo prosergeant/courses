@@ -1,0 +1,35 @@
+{% load static %}
+{% load i18n %}
+
+<style>
+    .wrapper {
+    height: 369px; /*100vh;*/
+}
+</style>
+
+<div class="wrapper" style="float: left;width: 300px;">
+<div class="sidebar" data-image="{% static 'main/img/sidebar-2.jpg' %}">
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'classes' %}">
+                    <i class="nc-icon nc-chart-pie-35"></i>
+                    <p>Уроки</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="{% url 'cabinet' %}">
+                    <i class="nc-icon nc-circle-09"></i>
+                    <p>Профиль</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="{% url 'cabinet-myless' %}">
+                    <i class="nc-icon nc-notes"></i>
+                    <p>Мои Уроки</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>

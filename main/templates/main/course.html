@@ -1,0 +1,31 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block main_content %}
+
+<section class="jumbotron-header-bar--tabs bg-midnight-light-force jumbotron jumbotron-header-bar" style="background:#505763;">
+  <h1 style="color:#fff;">Мои курсы</h1>
+</section>
+
+{% if user.is_authenticated %}
+<div class="row">
+{% for i in lesson_data %}
+  <div class="col-sm-3">
+    <div class="container">
+      <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+        <div class="card-header">{{i.name}}</div>
+        <div class="card-body">
+          <!--<h5 class="card-title">iD = {{i.id}}</h5>-->
+          <p class="card-text">{{i.anons}}</p>
+          <!-- <a href="/lessons/{{i.id}}" class="btn btn-primary">Изучить</a> -->
+            <a href="{% url 'course_detail' i.id %}" class="btn btn-primary">Изучить</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% else %}
+  <h3>Вы не авторизовались</h3>
+{% endif %}
+
+{% endblock %}

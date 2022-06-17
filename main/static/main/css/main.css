@@ -1,0 +1,151 @@
+.mainsec {
+  color: #000;
+  text-align: center;
+  display: block;
+  margin: auto;
+  padding-top: 1rem;
+}
+
+.jumbotron {
+  padding: 0.01rem 7rem;
+  margin-bottom: 1rem;
+  border-radius: 0;
+}
+
+aside {
+  float: left;
+  background: #181818;
+  width: 20%;
+  padding: 2.5%;
+  height: 150vh;
+  color: #fff;
+  border-right: 5px solid #4d4d4d;
+}
+
+@media all and (max-width: 600px) {
+  aside h4 {
+    font-size: 12px;
+  }
+}
+
+#block1 {
+float: left;
+display: block;
+}
+
+#mainblock1 {
+    float: left;
+    display: block;
+}
+
+#block2 {
+  float: left;
+  display: block;
+  width: 350px;
+}
+
+.cleardiv::before,
+.cleardiv::after {
+  content: "";
+  display: table;
+}
+.cleardiv::after{
+  clear: both;
+}
+.cleardiv {
+  clear: both;
+}
+
+.h_iframe iframe {
+    width:280%;
+    height:420px;
+}
+.h_iframe {
+    width: 100%;
+}
+
+.iconvis {
+  visibility: hidden;
+}
+
+.iconvis2 {
+  visibility: hidden;
+}
+
+.invis {
+  visibility: hidden;
+}
+
+.halfblock__part_i {
+    float: left;
+    height: 573px;
+    width: 50%;
+    overflow: hidden;
+    /*min-height: 700px;*/
+    position: relative;
+    /*background-size: contain;*/
+    background-repeat: no-repeat;
+}
+
+.main_content {
+    margin: auto;
+    text-align: center;
+    display: block;
+    padding-top: 15%;
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+.card:hover {
+    transform: scale(0.98);
+}
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.tox-notifications-container {
+    visibility: hidden;
+    background-color: black;
+}
+
+.in-center {
+    display: block;
+    margin: auto;
+}
+
+.card {
+    border-radius: 8px;
+}
+
+#card_nav {
+    text-decoration: none;
+    color: black;
+}
+
+#card_nav:hover {
+    background: #fc0; /* Цвет фона */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Параметры тени */
+    padding: 10px;
+}
+
+.frac {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    letter-spacing: 0.001em;
+    text-align: center;
+}
+.frac > span {
+    display: block;
+    padding: 0.1em;
+}
+.frac span.bottom {
+    border-top: thin solid black;
+}
+.frac span.symbol {
+    display: none;
+}

@@ -1,0 +1,304 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block main_content %}
+
+   <section class="jumbotron-header-bar--tabs bg-midnight-light-force jumbotron jumbotron-header-bar" style="background:#505763;">
+  <h1 style="color:#fff;">{{lesson.title}}</h1>
+</section>
+
+    <style>
+            #block3 {
+                float: right;
+                width: 25%;
+            }
+        </style>
+
+{% if user.is_authenticated %}
+    {% if can_read %}
+        <a class="pl-3" href="{% url 'home' %}">Главная</a> > <a href="{% url 'direction_set' klass_id %}">{{ klass_id }}-й Класс</a> >
+        <a href="{% url 'direction_pick' klass_id dir_id %}">
+            {% if dir_id == 'nis' %}
+                НИШ
+            {% elif dir_id == 'ktl' %}
+                КТЛ
+            {% elif dir_id == 'rfm' %}
+                РФМШ
+            {% elif dir_id == '165' %}
+                165 лицей
+            {% endif %}</a> > <a href="{% url 'subject_set' klass_id dir_id sub_id %}">
+        {% if sub_id == 'mat' %}
+            Математика
+        {% elif sub_id == 'eng' %}
+            Английский
+        {% elif sub_id == 'kaz' %}
+            Казахский
+        {% elif sub_id == 'rus' %}
+            Русский
+        {% endif %}</a>
+
+        > <a>{{ lesson.name }}</a>
+        <hr class="my-4">
+
+
+<div id='block3'>
+    <div class="row">
+        <div class="col">
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active{% if session_test_start %}eee {% endif %}" id="list-video-list" data-toggle="list" href="#list-video" role="tab" aria-controls="video">Видеоурок</a>
+              <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Конспект</a>
+              <a class="list-group-item list-group-item-action {% if session_test_start %} active {% endif %}" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Тест</a>
+            </div>
+        </div>
+    </div>
+
+    <!--  
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <div class="list-group" id="treinerList" role="tablist">
+                <a class="list-group-item list-group-item-action active" data-toggle="list" href="#trenajer1" role="tab">Тренажер 1</a>
+                <a class="list-group-item list-group-item-action" data-toggle="list" href="#trenajer2" role="tab">Тренажер 2</a>
+            </div>
+        </div>
+    </div>
+    -->
+    
+</div>
+
+
+<!--
+<div class="cleardiv p-3">
+  <h4>{{ lesson.name }}</h4>
+</div>
+-->
+
+
+<div id='block1' style="padding-left: 2rem;
+    font-size: 20px; " class="">
+
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show{% if session_test_start %}w{% endif %} active{% if session_test_start %}w{% endif %} " id="list-video" role="tabpanel" aria-labelledby="list-video-list">
+                <div class="h_iframe">
+                    <!--<iframe width="480" 
+                    height="270" 
+                    src="https://www.youtube.com/embed/Cabt-wD0AfQ" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>-->
+                    <!--<iframe src="{{lesson.video_file.url}}" width="100%" frameborder="0" allowfullscreen scrolling></iframe>-->
+                    <iframe width="1004" 
+                    height="565" 
+                    src="https://www.youtube.com/embed/{{ lesson.video_url }}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list" style="width: 49rem;">{{ lesson.quest|safe }} <br> 
+            
+                <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.doc' width='80%' height='565px' frameborder='0'> </iframe>
+            
+            </div>
+            <div class="tab-pane fade {% if session_test_start %} show active {% endif %}" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                <div class="jumbotron" style="
+width: 30rem;
+border-radius: 16px;
+background-color: aquamarine;">
+                    <h3>Тест такой-то</h3>
+                    <button type="button"
+                            style="float:left;" 
+                            class="btn btn-primary in-center" 
+                            data-toggle="modal" 
+                            data-target="#exampleModal">Вопрос №1</button>
+                    <p style="margin-left: 50%;">
+                                {% for i in answers %}
+                                    {% if i.quest == quest_data.0 %}
+                                        {% if i.start %}
+                                            {% if i.right %}
+                                                Пройден
+                                            {% else %}
+                                                Провален
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </p> <hr class="cleardiv">
+                    <button type="button" 
+                            style="float:left;" 
+                            class="btn btn-primary in-center" 
+                            data-toggle="modal" 
+                            data-target="#Modal2">Вопрос №2</button> 
+                    <p style="margin-left: 50%;">
+                                {% for i in answers %}
+                                    {% if i.quest == quest_data.1 %}
+                                        {% if i.start %}
+                                            {% if i.right %}
+                                                Пройден
+                                            {% else %}
+                                                Провален
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </p> <hr class="cleardiv">
+                    <button type="button" 
+                            style="float:left;" 
+                            class="btn btn-primary in-center" 
+                            data-toggle="modal" 
+                            data-target="#Modal3">Вопрос №3</button> 
+                    <p style="margin-left: 50%;">
+                            {% for i in answers %}
+                                    {% if i.quest == quest_data.2 %}
+                                        {% if i.start %}
+                                            {% if i.right %}
+                                                Пройден
+                                            {% else %}
+                                                Провален
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </p> <hr class="cleardiv">
+                </div>
+            </div>
+        </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Вопрос №1</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+            {{ quest_data.0.text }}
+            <hr>
+            <form action="" method="post">
+                {% csrf_token %}<input type="hidden" name="Modal" value="1">
+                <input type="radio" id="var1" name="answer" value="var1">
+                <label for="var1">{{ quest_data.0.var1 }}</label><br>
+                <input type="radio" id="var2" name="answer" value="var2">
+                <label for="var2">{{ quest_data.0.var2 }}</label><br>
+                <input type="radio" id="var3" name="answer" value="var3">
+                <label for="var3">{{ quest_data.0.var3 }}</label>
+        </div>
+      </div>
+              <div class="modal-footer">
+                <!--<button type="button" class="btn btn-primary">Проверить</button>-->
+                  <input 
+                  {% for i in answers %}
+                                {% if i.quest == quest_data.0 %}
+                                    {% if i.start %}
+                                         disabled="disabled"
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                  type="submit" class="btn btn-primary" value="Проверить">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+              </div>
+            </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal2 -->
+<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Вопрос №2</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+            {{ quest_data.1.text|safe }}
+            <hr>
+            <form action="" method="post">
+                {% csrf_token %}<input type="hidden" name="Modal" value="2">
+                <input type="radio" id="var1" name="answer" value="var1">
+                <label for="var1">{{ quest_data.1.var1|safe }}</label><br>
+                <input type="radio" id="var2" name="answer" value="var2">
+                <label for="var2">{{ quest_data.1.var2|safe }}</label><br>
+                <input type="radio" id="var3" name="answer" value="var3">
+                <label for="var3">{{ quest_data.1.var3|safe }}</label>
+        </div>
+      </div>
+              <div class="modal-footer">
+                  <input
+                    {% for i in answers %}
+                        {% if i.quest == quest_data.1 %}
+                            {% if i.start %}
+                                disabled="disabled"
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                  type="submit" class="btn btn-primary" value="Проверить">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+              </div>
+            </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal3 -->
+<div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Вопрос №3</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+            {{ quest_data.2.text|safe }}
+            <hr>
+            <form action="" method="post">
+                {% csrf_token %}<input type="hidden" name="Modal" value="3">
+                <input type="radio" id="var1" name="answer" value="var1">
+                <label for="var1">{{ quest_data.2.var1|safe }}</label><br>
+                <input type="radio" id="var2" name="answer" value="var2">
+                <label for="var2">{{ quest_data.2.var2|safe }}</label><br>
+                <input type="radio" id="var3" name="answer" value="var3">
+                <label for="var3">{{ quest_data.2.var3|safe }}</label>
+        </div>
+      </div>
+              <div class="modal-footer">
+                  <input
+                    {% for i in answers %}
+                        {% if i.quest == quest_data.2 %}
+                            {% if i.start %}
+                                disabled="disabled"
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                  type="submit" class="btn btn-primary" value="Проверить">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+              </div>
+            </form>
+    </div>
+  </div>
+</div>
+
+        <div class="cleardiv"></div>
+
+    {% else %}
+        <h3>У вас нет доступа</h3>
+    {% endif %}
+{% else %}
+  <h3>Вы не авторизовались</h3>
+{% endif %}
+
+
+{% endblock %}

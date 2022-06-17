@@ -1,0 +1,80 @@
+{% extends 'main/dashboard_layout.html' %}
+
+{% block main_content %}
+
+<h3>Рейтинг школ</h3>
+
+<div class="row">
+    <div class="col-sm-1">
+        <div class="card">
+            <div class="card-body text-center">
+                1
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <a href="{% url 'direction_pick' 6 'nis' %}">
+        <div id="card_nav" class="card">
+            <div class="card-body">
+                НИS
+            </div>
+        </div>
+        </a>
+    </div>
+    <div class="w-100 d-none d-md-block"></div>
+
+    <div class="col-sm-1">
+        <div class="card">
+            <div class="card-body text-center">
+                2
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <a href="{% url 'rating-detail' %}">
+        <div id="card_nav" class="card">
+            <div class="card-body">
+                КТЛ
+            </div>
+        </div>
+        </a>
+    </div>
+    <div class="w-100 d-none d-md-block"></div>
+
+    <div class="col-sm-1">
+        <div class="card">
+            <div class="card-body text-center">
+                3
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <a href="{% url 'rating-detail' %}">
+        <div id="card_nav" class="card">
+            <div class="card-body">
+                РФМШ
+            </div>
+        </div>
+        </a>
+    </div>
+    <div class="w-100 d-none d-md-block"></div>
+
+    <div class="col-sm-1">
+        <div class="card">
+            <div class="card-body text-center">
+                4
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <a href="{% url 'rating-detail' %}">
+        <div id="card_nav" class="card">
+            <div class="card-body">
+                165 лицей
+            </div>
+        </div>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

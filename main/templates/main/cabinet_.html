@@ -1,0 +1,36 @@
+{% extends 'main/layout.html' %}
+{% block main_content %}
+
+{% if user.is_authenticated %}
+
+    <p>E-mail: {{ user.get_username }}</p>
+    <p>Номер: {{ user.phone }}</p>
+
+    <h3>Купленные курсы:</h3>
+    {% for i in curr_purchases %}
+        <p>Класс: {{ i.course.klass }} -
+            Направление:
+            {% if i.course.direction == 'rfm' %}
+                РФМШ
+            {% elif i.course.direction == 'nis' %}
+                НИШ
+            {% elif i.course.direction == 'ktl' %}
+                КТЛ
+            {% elif i.course.direction == '165' %}
+                165 Лицей
+            {% endif %}
+            - Предмет:
+            {% if i.course.subject == 'rus' %}
+                Русский
+            {% elif i.course.subject == 'kaz' %}
+                Казахский
+            {% elif i.course.subject == 'eng' %}
+                Английский
+            {% elif i.course.subject == 'mat' %}
+                Математика
+            {% endif %} - {{ i.course.name }}<a href="{% url 'classes_detail' i.course.klass i.course.direction i.course.subject i.course.id %}"> Перейти к курсу</a></p>
+    {% endfor %}
+
+
+{% endif %}
+{% endblock %}

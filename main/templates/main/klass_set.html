@@ -1,0 +1,77 @@
+{% extends 'main/dashboard_layout.html' %}
+{% load i18n %}
+{% block main_content %}
+
+
+    <a href="{% url 'home' %}">Главная</a> > <a>{{ klass_id }}{% trans '-й Класс' %}</a>
+    <hr class="my-4">
+
+    <a class="btn btn-primary">Алматы</a>
+
+    <hr>
+
+<div class="row">
+{% if klass_id|to_int == 5 or klass_id|to_int == 6 %}
+
+  <div class="col-sm-5 mb-4">
+  <a href="{% url 'direction_pick' klass_id 'nis' %}">
+    <div id="card_nav" class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{% trans 'Назарбаевская Интелектуальная Школа' %}</h5>
+      </div>
+    </div>
+  </a>
+  </div>
+{% endif %}
+
+{% if klass_id|to_int <= 9 %}
+<div class="col-sm-5 mb-4">
+    <a href="{% url 'direction_pick' klass_id 'ktl' %}">
+    <div id="card_nav" class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{% trans 'Казахско-Турецкий Лицей' %}</h5>
+
+      </div>
+    </div>
+    </a>
+</div>
+{% endif %}
+
+<div class="col-sm-5 mb-4">
+    <a href="{% url 'direction_pick' klass_id '165' %}">
+    <div id="card_nav" class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">165 Лицей</h5>
+      </div>
+    </div>
+    </a>
+</div>
+
+{% if klass_id|to_int <= 9 %}
+<div class="col-sm-5 mb-4">
+    <a href="{% url 'direction_pick' klass_id 'rfm' %}">
+    <div id="card_nav" class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{% trans 'Республиканская физико-математическая школа' %}</h5>
+      </div>
+    </div>
+    </a>
+</div>
+{% endif %}
+
+</div>
+
+    <script>
+            document.addEventListener('DOMContentLoaded', function (event) {
+                $(".card").hover(
+                  function () {
+                    $(this).addClass('shadow');
+                  },
+                  function () {
+                    $(this).removeClass("shadow");
+                  }
+                );
+            });
+	    </script>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'main/layout.html' %}
+{% load i18n %}
+{% block main_content %}
+
+
+
+{% if user.is_authenticated %}
+
+    {% include 'main/dashboard.html' %}
+
+        {% for i in final_array %}
+
+        <script>
+            $(document).ready(function(){
+                var d = document.getElementById("button_{{ i.id }}");
+                d.className += " invis";
+
+                //$(".a").removeClass("invis");
+            });
+        </script>
+        {% endfor %}
+
+    {% for data in klass_data_clear %}
+        <script>
+            $(document).ready(function (){
+                $("#button_{{ data.id }}").removeClass("invis");
+            });
+        </script>
+    {% endfor %}
+
+
+<a class="pl-3" href="{% url 'home' %}">Главная</a> > <a href="{% url 'direction_set' klass_id %}">{{ klass_id }}-й Класс</a> >
+        <a href="{% url 'direction_pick' klass_id dir_id %}">
+            {% if dir_id == 'nis' %}
+                НИШ
+            {% elif dir_id == 'ktl' %}
+                КТЛ
+            {% elif dir_id == 'rfm' %}
+                РФМШ
+            {% elif dir_id == '165' %}
+                165 лицей
+            {% endif %}</a> > <a>
+        {% if sub_id == 'mat' %}
+            Математика
+        {% elif sub_id == 'eng' %}
+            Английский
+        {% elif sub_id == 'kaz' %}
+            Казахский
+        {% elif sub_id == 'rus' %}
+            Русский
+        {% endif %}</a>
+    <hr class="my-4">
+
+    <div class="row">
+    {% for lesson in klass %}
+    <div class="col-sm-10">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ lesson.name }}</h5>
+              <p>{{ lesson.anons }}</p>
+
+              {% for f in final_array %}
+                    {% if f.id == lesson.id %}
+                        <a href="{% url 'classes_detail' klass_id dir_id sub_id lesson.id %}" class="btn btn-primary">{% trans 'Изучить' %}</a>
+                    {% endif %}
+              {% endfor %}
+
+                <a id="button_{{ lesson.id }}" href="{% url 'pre_buy' lesson.id %}" class="btn btn-warning invis" style="width: 5.5rem;">{% trans 'Купить' %}</a>
+
+          <!-- <a href="#" class="btn btn-warning" style="width: 5.5rem;">Купить</a> -->
+
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+
+
+
+{% else %}
+    <h3>Вы не авторизовались</h3>
+{% endif %}
+{% endblock %}

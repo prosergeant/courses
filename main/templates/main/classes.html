@@ -1,0 +1,48 @@
+{% extends 'main/dashboard_layout.html' %}
+{% load i18n %}
+{% block main_content %}
+
+
+<div class="row">
+{% for cl in 11|get_range1 %}
+    {% if cl == 0 %}
+        <!-- continue tipa -->
+    {% else %}
+        {% if cl == 5 or cl == 9 or cl == 12 %}
+            <div class="w-100 d-none d-md-block"></div>
+        {% endif %}
+        <div class="col-lg-3 mb-3">
+        <a href="{% url 'direction_set' cl %}">
+            <div id="card_nav" class="card shadow-sm" style="width: 14rem; height: 14rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{ cl }}{% trans '-й Класс' %}</h5>
+                <!--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
+
+              </div>
+            </div>
+        </a>
+        </div>
+
+        <style>
+
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function (event) {
+                $(".card").hover(
+                  function () {
+                    $(this).addClass('shadow');
+                  },
+                  function () {
+                    $(this).removeClass("shadow");
+                  }
+                );
+            });
+	    </script>
+
+    {% endif %}
+{% endfor %}
+</div>
+
+
+{% endblock %}

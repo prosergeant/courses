@@ -1,0 +1,8 @@
+{% extends 'main/layout.html' %}
+
+{% block main_content %}
+
+    <h3>Спасибо за покупку, купленные уроки находятся в личном кабинете</h3>
+    <h4>Перейти в <a style="font-size: 24px;" href="{% url 'cabinet' %}">Личный кабинет</a></h4>
+    <h4>Перейти к <a href="{% url 'classes_detail' 0 "re" "direct" this_course.id %}">Уроку</a></h4>
+{% endblock %}

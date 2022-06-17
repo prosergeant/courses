@@ -1,0 +1,23 @@
+{% extends 'main/layout.html' %}
+{% block main_content %}
+
+    <div class="jumbotron">
+        <p>Вы собираетесь купить:</p>
+        <p>{{ lesson.klass }}-й класс</p>
+        <p>{% if lesson.direction == 'nis' %} НИШ
+            {% elif lesson.direction == 'ktl' %} КТЛ
+            {% elif lesson.direction == 'rfm' %} РФМШ
+            {% elif lesson.direction == '165' %} 165 лицей
+            {% endif %}</p>
+        <p>{% if lesson.subject == 'rus' %} Русский
+            {% elif lesson.subject == 'kaz' %} Казахский
+            {% elif lesson.subject == 'eng' %} Английский
+            {% elif lesson.subject == 'mat' %} Математика
+            {% endif %}</p>
+        <p>{{ lesson.name }}</p>
+        <p>{{ lesson.anons }}</p>
+
+        <a href="{% url 'buy' lesson.id%}" action="sumbit" method="post" class="btn btn-warning">Оплатить</a>
+    </div>
+
+{% endblock %}

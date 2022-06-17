@@ -1,0 +1,75 @@
+{% extends 'main/dashboard_layout.html' %}
+{% load i18n %}
+{% block main_content %}
+
+    <a href="{% url 'home' %}">Главная</a> > <a href="{% url 'direction_set' klass_id %}">{{ klass_id }}-й Класс</a> >
+    <a>
+    {% if dir_id == 'nis' %}
+        НИШ
+    {% elif dir_id == 'ktl'%}
+        КТЛ
+    {% elif dir_id == 'rfm'%}
+        РФМШ
+    {% elif dir_id == '165' %}
+        165 лицей
+    {% endif %}
+    </a>
+    <hr class="my-4">
+
+    <div class="row">
+    <div class="col-sm-5 mb-4">
+        <a href="{% url 'subject_set' klass_id dir_id 'mat' %}">
+        <div id="card_nav" class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Математика</h5>
+          </div>
+        </div>
+        </a>
+      </div>
+
+      <div class="col-sm-5 mb-4">
+       <a href="{% url 'subject_set' klass_id dir_id 'rus' %}">
+        <div id="card_nav" class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{% trans 'Русский язык' %}</h5>
+          </div>
+        </div>
+       </a>
+      </div>
+
+    <div class="col-sm-5 mb-4">
+       <a href="{% url 'subject_set' klass_id dir_id 'kaz' %}">
+        <div id="card_nav" class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{% trans 'Казахский язык' %}</h5>
+          </div>
+        </div>
+       </a>
+      </div>
+
+    <div class="col-sm-5 mb-4">
+       <a href="{% url 'subject_set' klass_id dir_id 'eng' %}">
+        <div id="card_nav" class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{% trans 'Английский язык' %}</h5>
+          </div>
+        </div>
+       </a>
+      </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function (event) {
+            $(".card").hover(
+                function () {
+                    $(this).addClass('shadow');
+                },
+                function () {
+                    $(this).removeClass("shadow");
+                }
+            );
+        });
+    </script>
+
+{% endblock %}

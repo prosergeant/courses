@@ -1,0 +1,276 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Главная</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/header-fixed.css' %}">
+    <!--<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>-->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!--<script src="{% static 'main/js/core/jquery.3.2.1.min.js' %}" type="text/javascript"></script>-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <!-- dashboard -->
+        <!--<link href="{% static 'main/css/light-bootstrap-dashboard.css' %}?v=2.0.0 " rel="stylesheet" />-->
+  </head>
+  <body>
+
+  <style>
+      body {
+          /*background-image: url("{% static 'main/img/main_bg.jpg' %}");*/
+          background-color: #eef2f5;
+      }
+  </style>
+
+    <header class="header-fixed">
+    	<div class="header-limiter">
+            <a href="{% url 'home' %}"><h1>Integral-edu.kz</h1></a>
+    		<nav>
+    			<a href="{% url 'home' %}">{% trans 'Главная' %}</a>
+              {% if user.is_authenticated %}
+                <a href="{% url 'cabinet' %}">{{ user.get_username }}</a>
+                <a href="{% url 'logout'%}?next={{request.path}}">{% trans 'Выход' %}</a>
+              {% else %}
+                <a href="{% url 'login'%}?next={{request.path}}">{% trans 'Войти' %}</a>
+                <a href="{% url 'registration' %}">{% trans 'Регистрация' %}</a>
+              {% endif %}
+                <form action="{% url 'set_language' %}" method='post'>{% csrf_token %}
+
+                    <select name="language" onchange="this.form.submit();">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}
+                            selected{% endif %}>
+                                {{ language.name_local }} ({{ language.code }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+    		</nav>
+    	</div>
+    </header>
+
+
+    {% block main_content %}
+
+    {% endblock %}
+
+
+  </body>
+
+    <style>
+      .site-footer
+        {
+          background-color:#26272b;
+          padding:45px 0 20px;
+          font-size:15px;
+          line-height:24px;
+          color:#737373;
+        }
+        .site-footer hr
+        {
+          border-top-color:#bbb;
+          opacity:0.5
+        }
+        .site-footer hr.small
+        {
+          margin:20px 0
+        }
+        .site-footer h6
+        {
+          color:#fff;
+          font-size:16px;
+          text-transform:uppercase;
+          margin-top:5px;
+          letter-spacing:2px
+        }
+        .site-footer a
+        {
+          color:#737373;
+        }
+        .site-footer a:hover
+        {
+          color:#3366cc;
+          text-decoration:none;
+        }
+        .footer-links
+        {
+          padding-left:0;
+          list-style:none
+        }
+        .footer-links li
+        {
+          display:block
+        }
+        .footer-links a
+        {
+          color:#737373
+        }
+        .footer-links a:active,.footer-links a:focus,.footer-links a:hover
+        {
+          color:#3366cc;
+          text-decoration:none;
+        }
+        .footer-links.inline li
+        {
+          display:inline-block
+        }
+        .site-footer .social-icons
+        {
+          text-align:right
+        }
+        .site-footer .social-icons a
+        {
+          width:40px;
+          height:40px;
+          line-height:40px;
+          margin-left:6px;
+          margin-right:0;
+          border-radius:100%;
+          background-color:#33353d
+        }
+        .copyright-text
+        {
+          margin:0
+        }
+        @media (max-width:991px)
+        {
+          .site-footer [class^=col-]
+          {
+            margin-bottom:30px
+          }
+        }
+        @media (max-width:767px)
+        {
+          .site-footer
+          {
+            padding-bottom:0
+          }
+          .site-footer .copyright-text,.site-footer .social-icons
+          {
+            text-align:center
+          }
+        }
+        .social-icons
+        {
+          padding-left:0;
+          margin-bottom:0;
+          list-style:none
+        }
+        .social-icons li
+        {
+          display:inline-block;
+          margin-bottom:4px
+        }
+        .social-icons li.title
+        {
+          margin-right:15px;
+          text-transform:uppercase;
+          color:#96a2b2;
+          font-weight:700;
+          font-size:13px
+        }
+        .social-icons a{
+          background-color:#eceeef;
+          color:#818a91;
+          font-size:16px;
+          display:inline-block;
+          line-height:44px;
+          width:44px;
+          height:44px;
+          text-align:center;
+          margin-right:8px;
+          border-radius:100%;
+          -webkit-transition:all .2s linear;
+          -o-transition:all .2s linear;
+          transition:all .2s linear
+        }
+        .social-icons a:active,.social-icons a:focus,.social-icons a:hover
+        {
+          color:#fff;
+          background-color:#29aafe
+        }
+        .social-icons.size-sm a
+        {
+          line-height:34px;
+          height:34px;
+          width:34px;
+          font-size:14px
+        }
+        .social-icons a.facebook:hover
+        {
+          background-color:#3b5998
+        }
+        .social-icons a.twitter:hover
+        {
+          background-color:#00aced
+        }
+        .social-icons a.linkedin:hover
+        {
+          background-color:#007bb6
+        }
+        .social-icons a.dribbble:hover
+        {
+          background-color:#ea4c89
+        }
+        @media (max-width:767px)
+        {
+          .social-icons li.title
+          {
+            display:block;
+            margin-right:0;
+            font-weight:600
+          }
+        }
+  </style>
+    <footer class="site-footer" style="margin-top: 6rem;">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <h6>Integral IT</h6>
+            <p class="text-justify">Somebody once told me the world is gonna roll me</p>
+          </div>
+
+          <div class="col-xs-6 col-md-3">
+            <h6>Адрес</h6>
+            <ul class="footer-links">
+                <li>Айманова 126</li>
+                <li>Офис 302, 304</li>
+            </ul>
+          </div>
+
+          <div class="col-xs-6 col-md-3">
+            <h6>Быстрые ссылки</h6>
+            <ul class="footer-links">
+              <li><a href="{% url 'about' %}">О нас</a></li>
+              <li><a href="{% url 'cabinet' %}">Личный кабинет</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-sm-6 col-xs-12">
+            <p class="copyright-text">Copyright &copy; 2021 Все права защищены <a href="http://https://www.instagram.com/integral.edu.kz/">Integral.edu.kz</a>.
+            </p>
+          </div>
+
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <ul class="social-icons">
+              <li><a class="facebook" href="https://www.facebook.com/integral.education.almaty"><i class="fa fa-facebook"></i></a></li>
+              <li><a class="twitter" href="http://https://www.instagram.com/integral.edu.kz/"><i class="fa fa-instagram"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+</footer>
+
+</html>

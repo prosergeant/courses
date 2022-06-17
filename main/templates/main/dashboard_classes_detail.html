@@ -1,0 +1,699 @@
+{% extends 'main/dashboard_layout.html' %}
+{% load static %}
+{% load in_template_renderer %}
+
+{% block main_content %}
+
+<style>
+    .selected {
+        background-color: aqua;
+    }
+</style>
+
+    {% if can_read %}
+
+    <a class="pl-3" href="{% url 'home' %}">Главная</a> > <a href="{% url 'direction_set' klass_id %}">{{ klass_id }}-й Класс</a> >
+    <a href="{% url 'direction_pick' klass_id dir_id %}">
+        {% if dir_id == 'nis' %}
+            НИШ
+        {% elif dir_id == 'ktl' %}
+            КТЛ
+        {% elif dir_id == 'rfm' %}
+            РФМШ
+        {% elif dir_id == '165' %}
+            165 лицей
+        {% endif %}</a> > <a href="{% url 'subject_set' klass_id dir_id sub_id %}">
+    {% if sub_id == 'mat' %}
+        Математика
+    {% elif sub_id == 'eng' %}
+        Английский
+    {% elif sub_id == 'kaz' %}
+        Казахский
+    {% elif sub_id == 'rus' %}
+        Русский
+    {% endif %}</a>
+
+    > <a>{{ lesson.name }}</a>
+    <hr class="my-4">
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link active{% if session_test_start %}w{% endif %}" data-toggle="pill" href="#driver-details-tab">Урок</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if session_test_start %} active {% endif %}" data-toggle="pill" href="#erer">Тесты</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#treiner">Тренажер</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#zadachi">Задачи</a>
+        </li>
+    </ul>
+    <hr>
+    
+    <div class="tab-content">
+        <div class="container-fluid drivers-main tab-pane active{% if session_test_start %}w{% endif %}" id="driver-details-tab" role="tabpanel">
+            <div class="tab-pane" id="register-driver-tab" role="tabpanel">
+                {#{ lesson.quest|safe }#}
+                {% in_template_renderer lesson.quest %} 
+            </div>
+        </div>
+
+        <div class="container-fluid drivers-main tab-pane {% if session_test_start %} active {% endif %}" id="erer" role="tabpanel">
+            <div class="tab-pane" id="register-driver-tab" role="tabpanel">
+
+                <div>
+                    {% if curr_prem %}
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        У вас есть премиум на этот урок, он истекает: {{ curr_prem_time }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <button type="button"
+                                        style="float:left;" 
+                                        class="btn btn-primary in-center" 
+                                        data-toggle="modal" 
+                                        data-target="#exampleModal">Вопрос №1</button>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p>
+                                        {% for i in answers %}
+                                            {% if i.quest == quest_data.0 %}
+                                                {% if i.start %}
+                                                    {% if i.right %}
+                                                        Пройден
+                                                    {% else %}
+                                                        Провален
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <button type="button" 
+                                        style="float:left;" 
+                                        class="btn btn-primary in-center" 
+                                        data-toggle="modal" 
+                                        data-target="#Modal2">Вопрос №2</button>
+                                    </div>
+                                    <div class="card-footer"> 
+                                        <p>
+                                        {% for i in answers %}
+                                            {% if i.quest == quest_data.1 %}
+                                                {% if i.start %}
+                                                    {% if i.right %}
+                                                        Пройден
+                                                    {% else %}
+                                                        Провален
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </p> 
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <button type="button" 
+                                        style="float:left;" 
+                                        class="btn btn-primary in-center" 
+                                        data-toggle="modal" 
+                                        data-target="#Modal3">Вопрос №3</button> 
+                                    </div>
+                                    <div class="card-footer">
+                                        <p>
+                                        {% for i in answers %}
+                                            {% if i.quest == quest_data.2 %}
+                                                {% if i.start %}
+                                                    {% if i.right %}
+                                                        Пройден
+                                                    {% else %}
+                                                        Провален
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            Подписка на 7 дней
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <input hidden name="_7days" value="yes">
+                                                <button class="btn btn-primary" >Оформить</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            Подписка на 30 дней
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <input hidden name="_30days" value="yes">
+                                                <button class="btn btn-primary" >Оформить</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            Подписка на 90 дней
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <input hidden name="_90days" value="yes">
+                                                <button class="btn btn-primary" >Оформить</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid drivers-main tab-pane" id="treiner" role="tabpanel">
+            <div class="tab-pane" id="register-driver-tab" role="tabpanel">
+                <div>
+                    <h3>Тренажер</h3>
+
+                    <div id="demo">
+                    <div v-if="quizEnd == false">
+                        <p>[[quizData ? quizData[currQuiz].question : "Загрузка..."]]</p>
+                        <p id='p1' v-on:click="clickOnP()">[[ quizDataFinal ? quizDataFinal[currQuiz].option_one : "Загрузка..."]]</p>
+                        <p id='p2' v-on:click="clickOnP2()">[[ quizDataFinal ? quizDataFinal[currQuiz].option_two : "Загрузка..."]]</p>
+                        <p id='p3' v-on:click="clickOnP3()">[[ quizDataFinal ? quizDataFinal[currQuiz].option_three : "Загрузка..."]]</p>
+                        <p id='p4' v-on:click="clickOnP4()">[[ quizDataFinal ? quizDataFinal[currQuiz].option_four : "Загрузка..."]]</p>
+
+                            <p>Выбранный ответ: [[ selectAnswer ? selectAnswer : "none" ]]</p>
+                            <p>Score: [[ score ]]</p>
+
+                        <button v-if="currQuiz < quizDataFinal.length-1" v-on:click="nextQuestion()">След Вопрос</button>
+                        <button v-if="currQuiz == quizDataFinal.length-1" v-on:click="finishQuestion()">Закончить тест</button>
+                    </div>
+                    <div v-else>
+                        <p>Вы сдали тест и набрали [[ score ]] баллов из [[ quizDataFinal.length ]]</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid drivers-main tab-pane" id="zadachi" role="tabpanel">
+            <div class="tab-pane" id="register-driver-tab" role="tabpanel">
+                <div id='for-canvases'>
+
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    
+
+
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Вопрос №1</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">
+              {{ quest_data.0.text|safe }}
+              <hr>
+              <form action="" method="post">
+                  {% csrf_token %}<input type="hidden" name="Modal" value="1">
+                  <input type="radio" id="var1" name="answer" value="var1">
+                  <label for="var1">{{ quest_data.0.var1 }}</label><br>
+                  <input type="radio" id="var2" name="answer" value="var2">
+                  <label for="var2">{{ quest_data.0.var2 }}</label><br>
+                  <input type="radio" id="var3" name="answer" value="var3">
+                  <label for="var3">{{ quest_data.0.var3 }}</label>
+          </div>
+        </div>
+                <div class="modal-footer">
+                  <!--<button type="button" class="btn btn-primary">Проверить</button>-->
+                    <input 
+                    {% for i in answers %}
+                                  {% if i.quest == quest_data.0 %}
+                                      {% if i.start %}
+                                           disabled="disabled"
+                                      {% endif %}
+                                  {% endif %}
+                              {% endfor %}
+                    type="submit" class="btn btn-primary" value="Проверить">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+              </form>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Modal2 -->
+  <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Вопрос №2</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">
+              {{ quest_data.1.text|safe }}
+              <hr>
+              <form action="" method="post">
+                  {% csrf_token %}<input type="hidden" name="Modal" value="2">
+                  <input type="radio" id="var1" name="answer" value="var1">
+                  <label for="var1">{{ quest_data.1.var1|safe }}</label><br>
+                  <input type="radio" id="var2" name="answer" value="var2">
+                  <label for="var2">{{ quest_data.1.var2|safe }}</label><br>
+                  <input type="radio" id="var3" name="answer" value="var3">
+                  <label for="var3">{{ quest_data.1.var3|safe }}</label>
+          </div>
+        </div>
+                <div class="modal-footer">
+                    <input
+                      {% for i in answers %}
+                          {% if i.quest == quest_data.1 %}
+                              {% if i.start %}
+                                  disabled="disabled"
+                              {% endif %}
+                          {% endif %}
+                      {% endfor %}
+                    type="submit" class="btn btn-primary" value="Проверить">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+              </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal3 -->
+  <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Вопрос №3</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">
+              {{ quest_data.2.text|safe }}
+              <hr>
+              <form action="" method="post">
+                  {% csrf_token %}<input type="hidden" name="Modal" value="3">
+                  <input type="radio" id="var1" name="answer" value="var1">
+                  <label for="var1">{{ quest_data.2.var1|safe }}</label><br>
+                  <input type="radio" id="var2" name="answer" value="var2">
+                  <label for="var2">{{ quest_data.2.var2|safe }}</label><br>
+                  <input type="radio" id="var3" name="answer" value="var3">
+                  <label for="var3">{{ quest_data.2.var3|safe }}</label>
+          </div>
+        </div>
+                <div class="modal-footer">
+                    <input
+                      {% for i in answers %}
+                          {% if i.quest == quest_data.2 %}
+                              {% if i.start %}
+                                  disabled="disabled"
+                              {% endif %}
+                          {% endif %}
+                      {% endfor %}
+                    type="submit" class="btn btn-primary" value="Проверить">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+              </form>
+      </div>
+    </div>
+  </div>
+  
+          <div class="cleardiv"></div>    
+
+    {% else %}
+        <h3>У вас нет доступа</h3>
+    {% endif %}
+
+{% endblock %}
+
+{% block script_content %}
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<!--vue-->
+<script>
+    var demo = new Vue({
+    delimiters: ['[[', ']]'],
+    el: '#demo',
+    data: {
+        quizData: null,
+        quizDataFinal: null,
+        currQuiz: 0,
+        currLesson: '{{ classes_id }}',
+        selectAnswer: null,
+        score: 0,
+        quizEnd: false
+    },
+    mounted() {
+        //https://calm-crag-97001.herokuapp.com/api/quiz/
+        fetch(`http://127.0.0.1:8000/api/quiz/`)
+        .then(res => res.json())
+        .then(result => {
+            this.quizData = result;
+
+            if(this.quizData)
+            {
+                var i;
+                for( i = 0; i < this.quizData.length; i++ )
+                {
+                    
+                    if(this.quizData[i].course_id == this.currLesson)
+                    {
+                        this.quizDataFinal = this.quizDataFinal || [];
+                        this.quizDataFinal.push(this.quizData[i])
+                    }
+                }
+            }
+
+        })
+
+    },
+
+    methods: {
+        nextQuestion: function () {
+            if(this.currQuiz < this.quizDataFinal.length-1)
+            {
+                if(this.selectAnswer == this.quizDataFinal[this.currQuiz].answer)
+                {
+                    this.score += 1;
+                }
+                this.currQuiz += 1;
+            }
+
+            var element = document.getElementById("p1");
+            element.classList.remove("selected");
+
+            var elementp2 = document.getElementById("p2");
+            elementp2.classList.remove("selected");
+
+            var elementp3 = document.getElementById("p3");
+            elementp3.classList.remove("selected");
+
+            var elementp4 = document.getElementById("p4");
+            elementp4.classList.remove("selected");
+
+            this.selectAnswer = null;
+        },
+
+        finishQuestion: function() {
+            if(this.selectAnswer == this.quizDataFinal[this.currQuiz].answer)
+            {
+                this.score += 1;
+            }
+            this.quizEnd = true;
+        },
+
+        clickOnP: function(){
+            var element = document.getElementById("p1");
+            element.classList.add("selected");
+
+            var elementp2 = document.getElementById("p2");
+            elementp2.classList.remove("selected");
+
+            var elementp3 = document.getElementById("p3");
+            elementp3.classList.remove("selected");
+
+            var elementp4 = document.getElementById("p4");
+            elementp4.classList.remove("selected");
+
+            this.selectAnswer = this.quizDataFinal[this.currQuiz].option_one;
+        },
+
+        clickOnP2: function() {
+            var element = document.getElementById("p1");
+            element.classList.remove("selected");
+
+            var elementp2 = document.getElementById("p2");
+            elementp2.classList.add("selected");
+
+            var elementp3 = document.getElementById("p3");
+            elementp3.classList.remove("selected");
+
+            var elementp4 = document.getElementById("p4");
+            elementp4.classList.remove("selected");
+
+            this.selectAnswer = this.quizDataFinal[this.currQuiz].option_two;
+        },
+
+        clickOnP3: function() {
+            var element = document.getElementById("p1");
+            element.classList.remove("selected");
+
+            var elementp2 = document.getElementById("p2");
+            elementp2.classList.remove("selected");
+
+            var elementp3 = document.getElementById("p3");
+            elementp3.classList.add("selected");
+
+            var elementp4 = document.getElementById("p4");
+            elementp4.classList.remove("selected");
+
+            this.selectAnswer = this.quizDataFinal[this.currQuiz].option_three;
+        },
+
+        clickOnP4: function() {
+            var element = document.getElementById("p1");
+            element.classList.remove("selected");
+
+            var elementp2 = document.getElementById("p2");
+            elementp2.classList.remove("selected");
+
+            var elementp3 = document.getElementById("p3");
+            elementp3.classList.remove("selected");
+
+            var elementp4 = document.getElementById("p4");
+            elementp4.classList.add("selected");
+
+            this.selectAnswer = this.quizDataFinal[this.currQuiz].option_four;
+        }
+    }
+    
+    });
+</script>
+
+<script src="https://cdnjs.com/libraries/pdf.js"></script>
+<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+
+<!--pdf1-->
+<script>
+    var url = 'http://127.0.0.1:8000/static/main/pdfs/{{classes_id}}.pdf';
+    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'http://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+    // Asynchronous download of PDF
+    var loadingTask = pdfjsLib.getDocument(url);
+    loadingTask.promise.then(function(pdf) {
+    console.log('PDF loaded');
+
+    // Fetch the first page
+    var pageNumber = 1;
+    var scale = 1.5;
+    var mainCanvas = document.getElementById('for-canvases');
+
+    for(var i = 1; i <= pdf.numPages; i++){
+        pdf.getPage(i).then(function(page) {
+            console.log('Page loaded');
+            
+            var viewport = page.getViewport({ scale: scale, });
+
+            // Prepare canvas using PDF page dimensions
+            var canvas = document.createElement('canvas');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            // Render PDF page into canvas context
+            const canvasContext = canvas.getContext('2d');
+            const renderContext = { canvasContext, viewport };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function () {
+                console.log('page rendered');
+            });
+
+            //document.body.appendChild(canvas);
+            mainCanvas.appendChild(canvas);
+
+        
+    });
+
+    }
+
+
+    }, function (reason) {
+    // PDF loading error
+    console.error(reason);
+    });
+</script>
+
+<!--pdf2--
+<script>
+    var url = 'http://127.0.0.1:8000/static/main/pdfs/{{classes_id}}.pdf';
+
+    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+    // The workerSrc property shall be specified.
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+    var pdfDoc = null,
+        pageNum = 1,
+        pageRendering = false,
+        pageNumPending = null,
+        scale = 1.5,
+        canvas = document.getElementById('the-canvas'),
+        ctx = canvas.getContext('2d');
+
+   
+    function shmenderPage(num) {
+        pageRendering = true;
+        for(var i = 1; i <= num; i++) {
+            pdfDoc.getPage(i).then(function(page) {
+            var viewport = page.getViewport({scale: scale});
+            canvas.height = viewport.height * i;
+            canvas.width = viewport.width;
+
+            // Render PDF page into canvas context
+            var renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+
+            // Wait for rendering to finish
+            renderTask.promise.then(function() {
+            pageRendering = false;
+            });
+            document.body.appendChild(canvas)
+        });
+    }
+
+    }   
+    
+    
+    function renderPage(num) {
+    pageRendering = true;
+    // Using promise to fetch the page
+    pdfDoc.getPage(num).then(function(page) {
+        var viewport = page.getViewport({scale: scale});
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        // Render PDF page into canvas context
+        var renderContext = {
+        canvasContext: ctx,
+        viewport: viewport
+        };
+        var renderTask = page.render(renderContext);
+
+        // Wait for rendering to finish
+        renderTask.promise.then(function() {
+        pageRendering = false;
+        if (pageNumPending !== null) {
+            // New page rendering is pending
+            renderPage(pageNumPending);
+            pageNumPending = null;
+        }
+        });
+    });
+
+    // Update page counters
+    document.getElementById('page_num').textContent = num;
+    }
+
+    /**
+     * If another page rendering in progress, waits until the rendering is
+     * finised. Otherwise, executes rendering immediately.
+     */
+    function queueRenderPage(num) {
+    if (pageRendering) {
+        pageNumPending = num;
+    } else {
+        renderPage(num);
+    }
+    }
+
+    /**
+     * Displays previous page.
+     */
+    function onPrevPage() {
+    if (pageNum <= 1) {
+        return;
+    }
+    pageNum--;
+    queueRenderPage(pageNum);
+    }
+    document.getElementById('prev').addEventListener('click', onPrevPage);
+
+    /**
+     * Displays next page.
+     */
+    function onNextPage() {
+    if (pageNum >= pdfDoc.numPages) {
+        return;
+    }
+    pageNum++;
+    queueRenderPage(pageNum);
+    }
+    document.getElementById('next').addEventListener('click', onNextPage);
+
+
+    
+    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+    pdfDoc = pdfDoc_;
+    document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+
+    //renderPage(pageNum);
+    shmenderPage(3);
+
+    });
+</script>-->
+
+{% endblock %}
